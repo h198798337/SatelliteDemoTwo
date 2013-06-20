@@ -109,9 +109,9 @@ public class SatelliteApplication {
 				try {
 					SatelliteControl satelliteControl = new SatelliteControl(satelliteDevice);
 					if(satelliteControl.linkRequest()) {
-						infomation.insert("请求成功\n");
+						insertText("请求成功");
 					} else {
-						infomation.insert("请求失败\n");
+						insertText("请求失败");
 					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -132,10 +132,10 @@ public class SatelliteApplication {
 					SatelliteControl satelliteControl = new SatelliteControl(satelliteDevice);
 					FilmInfoResponse filmInfoResponse = satelliteControl.filminfoRequest();
 					if(filmInfoResponse != null) {
-						infomation.insert("影片信息:\n");
-						infomation.insert(filmInfoResponse.toXmlString() + "\n");
+						insertText("影片信息:");
+						insertText(filmInfoResponse.toXmlString());
 					} else {
-						infomation.insert("获取影片信息失败\n");
+						insertText("获取影片信息失败");
 					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -155,10 +155,10 @@ public class SatelliteApplication {
 					SatelliteControl satelliteControl = new SatelliteControl(satelliteDevice);
 					FtpResponse ftpResponse = satelliteControl.ftpRequest(cpluuid_text.getText());
 					if(ftpResponse != null) {
-						infomation.insert("影片FTP信息:\n");
-						infomation.insert(ftpResponse.toXmlString() + "\n");
+						insertText("影片FTP信息:");
+						insertText(ftpResponse.toXmlString());
 					} else {
-						infomation.insert("获取影片FTP信息失败\n");
+						insertText("获取影片FTP信息失败");
 					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -177,9 +177,9 @@ public class SatelliteApplication {
 				try {
 					SatelliteControl satelliteControl = new SatelliteControl(satelliteDevice);
 					if(satelliteControl.setCompleteFlag(cpluuid_text.getText())) {
-						infomation.insert("影片下载完成确认成功\n");
+						insertText("影片下载完成确认成功");
 					} else {
-						infomation.insert("影片下载完成确认失败\n");
+						insertText("影片下载完成确认失败");
 					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -205,5 +205,10 @@ public class SatelliteApplication {
 		
 		infomation = new Text(right_composite, SWT.BORDER | SWT.READ_ONLY | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
 
+	}
+	
+	private void insertText(String content) {
+		infomation.setSelection(infomation.getText().length(), infomation.getText().length());
+		infomation.insert(content + "\n");
 	}
 }

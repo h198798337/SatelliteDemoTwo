@@ -50,7 +50,7 @@ public abstract class AbstractSocketCmd<T, S extends SocketConnect> {
 				socket.send(cmdSend);				//发送命令
 				resultValue = receiveData();		//获取返回值
 //				System.out.println(byte2HexStr(resultValue, " "));
-				socket.close();
+//				socket.close();
 				
 				if (checkValue(resultValue)) {
 					setStatus(SatelliteControl.RESULT_STATUS_OK);	//成功

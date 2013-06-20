@@ -17,26 +17,29 @@ public class TestByte {
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
-		String sendXml = FileOperate.readFileToString("filminforeturn.xml");
+		String sendXml = FileOperate.readFileToString("ftp.xml");
 //		String sendXml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>"+
 //				"<response status=\"OK\" version=\"2\" >"+
 //				"<uuid>ppp</uuid>"+
 //				"</response>";
 		byte[] xmlb = sendXml.getBytes();
-		System.out.println(byte2HexStr(xmlb, " "));
+		System.out.println("xml byte: " + byte2HexStr(xmlb, " "));
 		String ls = Integer.toHexString(7 + xmlb.length);
 		ls = addZeroForNum(ls, 8, true);
-		byte[] length = hexStringToBytes(hexTran(ls));
-		System.out.println(byte2HexStr(length, " "));
+//		byte[] length = hexStringToBytes(hexTran(ls));
+		byte[] length = hexStringToBytes(ls);
+		System.out.println("length: " + byte2HexStr(length, " "));
 		
 		byte[] cmd = new byte[xmlb.length + 7];
-		System.arraycopy(new byte[]{0x55, 0x22, 0x00}, 0, cmd, 0, 3);
+		System.arraycopy(new byte[]{0x55, 0x00, 0x25}, 0, cmd, 0, 3);
 		System.arraycopy(length, 0, cmd, 3, length.length);
 		System.arraycopy(xmlb, 0, cmd, 7, xmlb.length);
-		CRC32 crc32 = new CRC32();
+		/*CRC32 crc32 = new CRC32();
 		crc32.update(cmd);
 		byte[] crc = hexStringToBytes(Long.toHexString(crc32.getValue()));
-		System.out.println(byte2HexStr(crc, " "));
+		System.out.println(byte2HexStr(crc, " "));*/
+		byte[] checksum = checkSum(cmd, 8);
+		System.out.println("checksum: " + byte2HexStr(checksum, " "));
 		
 //		byte[] lengtht = {0x07, 0x00, 0x00, 0x00};
 //		System.out.println(hexToLength(byte2HexStr(lengtht, "")));
@@ -112,4 +115,18 @@ public class TestByte {
 	public static int hexToLength(String hexstr){
         return Integer.parseInt(hexTran(hexstr),16);
     }
+	
+	/**
+	 * @param content
+	 * @param number 校验和字符串长度
+	 * @return
+	 */
+	public static byte[] checkSum(byte[] content, int number) {
+		long sum = 0L;
+		for (byte b : content) {
+			sum += b;
+		}
+		String checkSumStr = addZeroForNum(Long.toHexString(sum), number, true);
+		return hexStringToBytes(checkSumStr);
+	}
 }

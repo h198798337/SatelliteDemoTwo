@@ -6,6 +6,7 @@ import java.util.Arrays;
 import javax.xml.bind.JAXBException;
 
 import com.ykse.jaxb.satellite.filminfo.FilmInfoResponse;
+import com.ykse.socket.TcpConnect;
 
 public class CMDFilmInfoRequest extends CrifstSatelliteDeviceCMD<String>{
 
@@ -33,7 +34,7 @@ public class CMDFilmInfoRequest extends CrifstSatelliteDeviceCMD<String>{
 	@Override
 	protected boolean checkValue(byte[] value) {
 		// TODO Auto-generated method stub
-		byte[] cmd = new byte[2];
+		/*byte[] cmd = new byte[2];
 		System.arraycopy(value, 1, cmd, 0, 2);
 		byte[] requestSuccess = new byte[]{0x00, 0x22};
 		if(Arrays.equals(cmd, requestSuccess)){
@@ -42,22 +43,24 @@ public class CMDFilmInfoRequest extends CrifstSatelliteDeviceCMD<String>{
 			System.arraycopy(value, 0, temp, 0, payloadLength);
 			byte[] checksumFromV = new byte[4];
 			System.arraycopy(value, payloadLength, checksumFromV, 0, 4);
-			/*CRC32 crc32 = new CRC32();
-			crc32.update(temp);*/
+			CRC32 crc32 = new CRC32();
+			crc32.update(temp);
 			byte[] checksum = checkSum(temp, 8);
 //			if(byte2HexStr(crcByte, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
 			if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {
 				return true;
 			}
 		}
-		return false;
+		return false;*/
+		setPayloadLength(value);
+		return true;
 	}
 
 	@Override
 	protected void setResult(byte[] value) {
 		// TODO Auto-generated method stub
 		if(payloadLength != 0){
-			byte[] content = new byte[payloadLength - 7];
+			byte[] content = new byte[payloadLength];
 			System.arraycopy(value, 7, content, 0, content.length);
 			String xml = new String(content);
 			System.out.println("影片信息:\n" + xml);
@@ -76,5 +79,5 @@ public class CMDFilmInfoRequest extends CrifstSatelliteDeviceCMD<String>{
 	public FilmInfoResponse getFilmInfoResponse() {
 		return filmInfoResponse;
 	}
-	
+
 }

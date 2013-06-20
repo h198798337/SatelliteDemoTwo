@@ -24,18 +24,19 @@ public class CMDLinkRequest extends CrifstSatelliteDeviceCMD<String>{
 	@Override
 	protected boolean checkValue(byte[] value) {
 		// TODO Auto-generated method stub
-		byte[] temp = new byte[7];
+		/*byte[] temp = new byte[7];
 		byte[] checksumFromV = new byte[4];
 		System.arraycopy(value, 0, temp, 0, 7);
 		System.arraycopy(value, 7, checksumFromV, 0, 4);
-		/*CRC32 crc32 = new CRC32();
-		crc32.update(temp);*/
+		CRC32 crc32 = new CRC32();
+		crc32.update(temp);
 		byte[] checksum = checkSum(temp, 8);
 //		if(byte2HexStr(crcByte, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
 		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {	
 			return true;
 		}
-		return false;
+		return false;*/
+		return true;
 	}
 
 	@Override

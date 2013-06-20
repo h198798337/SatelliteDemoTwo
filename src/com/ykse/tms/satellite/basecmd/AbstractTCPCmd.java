@@ -15,7 +15,7 @@ import com.ykse.socket.TcpConnect;
  */
 public abstract class AbstractTCPCmd<T> extends AbstractSocketCmd<T, TcpConnect> {
 //	protected static Logger logger = Logger.getLogger("audio");
-	
+	protected static TcpConnect socket;
 	/**
 	 * 构造函数
 	 * @param host 主机名(ip)
@@ -28,8 +28,9 @@ public abstract class AbstractTCPCmd<T> extends AbstractSocketCmd<T, TcpConnect>
 
 	@Override
 	protected TcpConnect createSocket(String host, int tcpPort, int timeout) throws UnknownHostException, IOException {
-		return new TcpConnect(host, tcpPort, timeout);
+		if(socket == null)
+			socket = new TcpConnect(host, tcpPort, timeout);
+		return socket;
 	}
-
 
 }
