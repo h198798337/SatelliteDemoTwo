@@ -32,9 +32,10 @@ public class CMDLinkRequest extends CrifstSatelliteDeviceCMD<String>{
 		System.arraycopy(value, 7, checksumFromV, 0, 4);
 		CRC32 crc32 = new CRC32();
 		crc32.update(temp);
-		byte[] checksum = checkSum(temp, 8);
-//		if(byte2HexStr(crcByte, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
-		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {	
+//		byte[] checksum = checkSum(temp, 8);
+		byte[] crcByte = hexStringToBytes(Long.toHexString(crc32.getValue()));
+		if(byte2HexStr(crcByte, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
+//		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {	
 			return true;
 		}
 		return false;
