@@ -9,5 +9,6 @@ public interface ISatelliteControl {
 	public FilmInfoResponse filminfoRequest();
 	public FtpResponse ftpRequest(String uuid);
 	public boolean setCompleteFlag(String uuid);
+	public void socketClose();
 	
 }

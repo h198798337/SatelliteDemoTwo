@@ -1,5 +1,7 @@
 package com.ykse.tms.satellite.crifstdevice;
 
+import java.util.zip.CRC32;
+
 public class CMDLinkRequest extends CrifstSatelliteDeviceCMD<String>{
 
 	public CMDLinkRequest(String host, int tcpPort, int timeout) {
@@ -24,7 +26,7 @@ public class CMDLinkRequest extends CrifstSatelliteDeviceCMD<String>{
 	@Override
 	protected boolean checkValue(byte[] value) {
 		// TODO Auto-generated method stub
-		/*byte[] temp = new byte[7];
+		byte[] temp = new byte[7];
 		byte[] checksumFromV = new byte[4];
 		System.arraycopy(value, 0, temp, 0, 7);
 		System.arraycopy(value, 7, checksumFromV, 0, 4);
@@ -35,8 +37,8 @@ public class CMDLinkRequest extends CrifstSatelliteDeviceCMD<String>{
 		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {	
 			return true;
 		}
-		return false;*/
-		return true;
+		return false;
+//		return true;
 	}
 
 	@Override

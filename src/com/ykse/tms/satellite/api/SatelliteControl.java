@@ -68,4 +68,10 @@ public class SatelliteControl implements ISatelliteControl {
 		return satelliteCtrl.ftpRequest(uuid);
 	}
 
+	@Override
+	public void socketClose() {
+		// TODO Auto-generated method stub
+		satelliteCtrl.socketClose();
+	}
+
 }

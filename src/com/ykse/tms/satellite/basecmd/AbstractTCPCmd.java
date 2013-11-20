@@ -33,4 +33,8 @@ public abstract class AbstractTCPCmd<T> extends AbstractSocketCmd<T, TcpConnect>
 		return socket;
 	}
 
+	public static TcpConnect getSocket() {
+		return socket;
+	}
+	
 }

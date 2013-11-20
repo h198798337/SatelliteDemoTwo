@@ -3,6 +3,7 @@ package com.ykse.tms.satellite.crifstdevice;
 import com.ykse.jaxb.satellite.filminfo.Dcp;
 import com.ykse.jaxb.satellite.filminfo.FilmInfoResponse;
 import com.ykse.jaxb.satellite.ftp.FtpResponse;
+import com.ykse.socket.TcpConnect;
 import com.ykse.tms.satellite.api.ISatelliteControl;
 import com.ykse.tms.satellite.api.SatelliteControl;
 
@@ -10,6 +11,8 @@ public class CrifstSatelliteDevice implements ISatelliteControl{
 	private String ipaddr;
 	private final int PORT = 20080;
 	private int timeoutr = 20000;
+	
+	private static TcpConnect socket;
 	
 	public CrifstSatelliteDevice(String ipaddr) {
 		this.ipaddr = ipaddr;
@@ -55,6 +58,8 @@ public class CrifstSatelliteDevice implements ISatelliteControl{
 	public boolean linkRequest() {
 		// TODO Auto-generated method stub
 		CMDLinkRequest cmdLinkRequest = new CMDLinkRequest(ipaddr, PORT, timeoutr);
+		if(socket == null)
+			socket = cmdLinkRequest.getSocket();
 		cmdLinkRequest.execute(null);
 		if(SatelliteControl.RESULT_STATUS_OK.equals(cmdLinkRequest.getStatus())) {
 			return true;
@@ -66,6 +71,8 @@ public class CrifstSatelliteDevice implements ISatelliteControl{
 	public FilmInfoResponse filminfoRequest() {
 		// TODO Auto-generated method stub
 		CMDFilmInfoRequest cmdFilmInfoRequest = new CMDFilmInfoRequest(ipaddr, PORT, timeoutr);
+		if(socket == null)
+			socket = cmdFilmInfoRequest.getSocket();
 		cmdFilmInfoRequest.execute(null);
 		return cmdFilmInfoRequest.getFilmInfoResponse();
 	}
@@ -74,8 +81,22 @@ public class CrifstSatelliteDevice implements ISatelliteControl{
 	public FtpResponse ftpRequest(String uuid) {
 		// TODO Auto-generated method stub
 		CMDFTPRequest cmdftpRequest = new CMDFTPRequest(ipaddr, PORT, timeoutr);
+		if(socket == null)
+			socket = cmdftpRequest.getSocket();
 		cmdftpRequest.execute(uuid);
 		return cmdftpRequest.getFtpResponse();
+	}
+
+	@Override
+	public void socketClose() {
+		// TODO Auto-generated method stub
+		try {
+			if(socket != null)
+				socket.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
