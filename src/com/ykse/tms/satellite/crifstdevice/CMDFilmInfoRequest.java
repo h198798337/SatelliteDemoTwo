@@ -34,10 +34,9 @@ public class CMDFilmInfoRequest extends CrifstSatelliteDeviceCMD<String>{
 	@Override
 	protected boolean checkValue(byte[] value) {
 		// TODO Auto-generated method stub
-		setPayloadLength(value);
 		byte[] cmd = new byte[2];
 		System.arraycopy(value, 1, cmd, 0, 2);
-		byte[] requestSuccess = new byte[]{0x00, 0x22};
+		byte[] requestSuccess = new byte[]{0x22, 0x00};
 		if(Arrays.equals(cmd, requestSuccess)){
 			setPayloadLength(value);
 			byte[] temp = new byte[payloadLength];
@@ -54,6 +53,7 @@ public class CMDFilmInfoRequest extends CrifstSatelliteDeviceCMD<String>{
 			}
 		}
 		return false;
+//		setPayloadLength(value);
 //		return true;
 	}
 
