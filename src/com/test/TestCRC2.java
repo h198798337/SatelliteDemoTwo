@@ -58,13 +58,16 @@ public class TestCRC2 {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		byte[] t = new byte[]{0x55, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00 };
-		long tcrc = sp_crc32(t, t.length);
-		System.out.println(Long.toHexString(tcrc));
-		System.out.println(byte2HexStr(hexStringToBytes(addZeroForNum(Long.toHexString(tcrc), 8, true))," "));
+		String bstr = "";
+//		byte[] t = new byte[]{0x55, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00 };
+		byte[] t = hexStringToBytes(bstr);
+		int tcrc = sp_crc32(t, t.length);
+		System.out.println(Integer.toHexString(tcrc));
+		System.out.println(hexTran(addZeroForNum(Integer.toHexString(tcrc), 8, true)));
+		System.out.println(byte2HexStr(hexStringToBytes(hexTran(addZeroForNum(Integer.toHexString(tcrc), 8, true))), " "));
 	}
 	
-	public static long sp_crc32(byte[] buf, int size) {
+	public static int sp_crc32(byte[] buf, int size) {
 		int crc = 0xffffffff;
 		int i = 0;
 		if (size == 0)

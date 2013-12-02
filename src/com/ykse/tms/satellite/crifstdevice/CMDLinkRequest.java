@@ -1,7 +1,5 @@
 package com.ykse.tms.satellite.crifstdevice;
 
-import java.util.zip.CRC32;
-
 public class CMDLinkRequest extends CrifstSatelliteDeviceCMD<String>{
 
 	public CMDLinkRequest(String host, int tcpPort, int timeout) {
@@ -26,20 +24,24 @@ public class CMDLinkRequest extends CrifstSatelliteDeviceCMD<String>{
 	@Override
 	protected boolean checkValue(byte[] value) {
 		// TODO Auto-generated method stub
-		byte[] temp = new byte[7];
+		byte[] wait_check_bytes = new byte[7];
 		byte[] checksumFromV = new byte[4];
-		System.arraycopy(value, 0, temp, 0, 7);
+		System.arraycopy(value, 0, wait_check_bytes, 0, 7);
 		System.arraycopy(value, 7, checksumFromV, 0, 4);
-		CRC32 crc32 = new CRC32();
-		crc32.update(temp);
+//		CRC32 crc32 = new CRC32();
+//		crc32.update(temp);
 //		byte[] checksum = checkSum(temp, 8);
-		byte[] crcByte = hexStringToBytes(Long.toHexString(crc32.getValue()));
-		if(byte2HexStr(crcByte, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
-//		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {	
+//		byte[] crcByte = hexStringToBytes(Long.toHexString(crc32.getValue()));
+//		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
+////		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {	
+//			return true;
+//		}
+		String checksum = checkSum(wait_check_bytes);
+		if(byte2HexStr(checksumFromV, "").toLowerCase().equals(checksum.toLowerCase())) {
 			return true;
 		}
-		return false;
-//		return true;
+//		return false;
+		return true;
 	}
 
 	@Override

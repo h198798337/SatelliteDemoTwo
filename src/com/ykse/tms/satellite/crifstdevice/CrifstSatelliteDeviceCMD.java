@@ -20,4 +20,9 @@ public abstract class CrifstSatelliteDeviceCMD<T> extends AbstractTCPCmd<T>{
 	public String getStatus() {
 		return er.getStatus();
 	}
+	
+	protected String checkSum(byte[] checkBytes) {
+		int crc_int = SatelliteDeviceCRC32_v1.crc32_validate(checkBytes, checkBytes.length);
+		return hexTran(addZeroForNum(Integer.toHexString(crc_int), 8, true));
+	}
 }

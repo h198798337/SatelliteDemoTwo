@@ -2,7 +2,6 @@ package com.ykse.tms.satellite.crifstdevice;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.zip.CRC32;
 
 import javax.xml.bind.JAXBException;
 
@@ -39,16 +38,20 @@ public class CMDFilmInfoRequest extends CrifstSatelliteDeviceCMD<String>{
 		byte[] requestSuccess = new byte[]{0x22, 0x00};
 		if(Arrays.equals(cmd, requestSuccess)){
 			setPayloadLength(value);
-			byte[] temp = new byte[payloadLength];
-			System.arraycopy(value, 0, temp, 0, payloadLength);
+			byte[] wait_check_bytes = new byte[payloadLength + 7];
+			System.arraycopy(value, 0, wait_check_bytes, 0, payloadLength + 7);
 			byte[] checksumFromV = new byte[4];
-			System.arraycopy(value, payloadLength, checksumFromV, 0, 4);
-			CRC32 crc32 = new CRC32();
-			crc32.update(temp);
+			System.arraycopy(value, payloadLength + 7, checksumFromV, 0, 4);
+//			CRC32 crc32 = new CRC32();
+//			crc32.update(temp);
 //			byte[] checksum = checkSum(temp, 8);
-			byte[] crcByte = hexStringToBytes(Long.toHexString(crc32.getValue()));
-			if(byte2HexStr(crcByte, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
-//			if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {
+//			byte[] crcByte = hexStringToBytes(Long.toHexString(crc32.getValue()));
+//			if(byte2HexStr(checksumFromV, "").toLowerCase().equals(Long.toHexString(crc32.getValue()).toLowerCase())) {
+////			if(byte2HexStr(checksumFromV, "").toLowerCase().equals(byte2HexStr(checksum, "").toLowerCase())) {
+//				return true;
+//			}
+			String checksum = checkSum(wait_check_bytes);
+			if(byte2HexStr(checksumFromV, "").toLowerCase().equals(checksum.toLowerCase())) {
 				return true;
 			}
 		}

@@ -2,6 +2,8 @@ package com.test;
 
 import java.util.zip.CRC32;
 
+import sun.misc.CRC16;
+
 public class TestCRC {
 	
 	/**
@@ -10,9 +12,10 @@ public class TestCRC {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		CRC32 crc32 = new CRC32();
-		byte[] t = new byte[]{0x55, 0x28, 0x00, 0x07, 0x00, 0x00, 0x00};
+		byte[] t = new byte[]{0x55, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00 };
 		System.out.println(new String(t));
 		crc32.update(t);
+		System.out.println(crc32.getValue());
 		System.out.println(Long.toHexString(crc32.getValue()));
 		
 		byte[] t2 = hexStringToBytes(Long.toHexString(crc32.getValue()));
@@ -20,6 +23,16 @@ public class TestCRC {
 		
 		byte[] t3 = {0x00, 0x00, 0x00, 0x07};
 		System.out.println(Integer.parseInt(byte2HexStr(t3, ""),16));
+		
+		String test = "test";
+		CRC16 crc16 = new CRC16();
+		byte[] test16 = test.getBytes();
+		for (byte b : test16) {
+			crc16.update(b);
+		}
+		System.out.println(crc16.toString());
+		System.out.println(Long.toHexString(crc16.value));
+		
 		/*byte[] REQUEST_CMD = {0x55, 0x11, 0x00, 0x07, 0x00, 0x00, 0x00, (byte)0xb9, (byte)0xdc, (byte)0xf0, (byte)0xe9};
 		byte[] temp = new byte[7];
 		byte[] crcByte = new byte[4];

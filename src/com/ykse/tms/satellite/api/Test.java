@@ -15,7 +15,7 @@ public class Test {
 		SatelliteControl satelliteControl = new SatelliteControl(satelliteDevice);
 		boolean stop = false;
 		while(!stop){
-			System.out.println("功能选择：1.请求连接   2.影片信息查询   3.影片ftp信息查询   4.退出\n");
+			System.out.println("功能选择：1.请求连接   2.影片信息查询   3.影片ftp信息查询   4.完成下载信息反馈  5.退出\n");
 			System.out.println("请输入要使用的功能的序号:");
 			Scanner sc = new Scanner(System.in);
 			int function = Integer.valueOf(sc.next());
@@ -23,6 +23,8 @@ public class Test {
 			case 1:
 				if(satelliteControl.linkRequest())
 					System.out.println("连接成功");
+				else
+					System.out.println("连接失败");
 				break;
 			case 2:
 				FilmInfoResponse filmInfoResponse = satelliteControl.filminfoRequest();
@@ -45,6 +47,15 @@ public class Test {
 				}
 				break;
 			case 4:
+				System.out.println("请输入需要uuid:");
+				String uuid_c = sc.next();
+				if(satelliteControl.setCompleteFlag(uuid_c)) {
+					System.out.println("提交完成信息成功\n");
+				} else {
+					System.out.println("提交完成信息失败\n");
+				}
+				break;
+			case 5:
 				stop=true;
 				break;
 			default:
